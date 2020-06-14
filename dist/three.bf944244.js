@@ -36578,6 +36578,8 @@ var windowHalfX = window.innerWidth / 2;
 var windowHalfY = window.innerHeight / 2;
 var flamingo;
 var mouseDown = false;
+var rad = 0;
+var radIncrement = 1;
 init();
 animate();
 
@@ -36637,7 +36639,7 @@ function init() {
   container.appendChild(renderer.domElement); //
 
   window.addEventListener("mousedown", onMouseDown, false);
-  window.addEventListener("mousedUp", onMouseUp, false);
+  window.addEventListener("mouseUp", onMouseUp, false);
   window.addEventListener("mousemove", onMouseMove, false);
   window.addEventListener("resize", onWindowResize, false);
 }
@@ -36654,26 +36656,30 @@ function onMouseDown() {
 var lastMPos = {}; //this function is called when the mouse is moved
 
 function onMouseMove(event) {
-  console.log('mouse down and moving'); //you can only calculate the distance if therer already was a mouse event
+  console.log("mouse down and moving", mouseDown);
 
-  if (typeof lastMPos.x != 'undefined') {
-    //calculate how far the mouse has moved
-    var deltaX = lastMPos.x - event.clientX,
-        deltaY = lastMPos.y - event.clientY; //rotate your object accordingly
-    //declared once at the top of your code
+  if (mouseDown) {
+    //you can only calculate the distance if therer already was a mouse event
+    if (typeof lastMPos.x != "undefined") {
+      //calculate how far the mouse has moved
+      var deltaX = lastMPos.x - event.clientX,
+          deltaY = lastMPos.y - event.clientY; //rotate your object accordingly
+      //declared once at the top of your code
 
-    var axis = new THREE.Vector3(deltaX, deltaY, 0); //tilted a bit on x and y - feel free to plug your different axis here
-    //in your update/draw function
+      var axis = new THREE.Vector3(deltaX, deltaY, 0); //tilted a bit on x and y - feel free to plug your different axis here
+      //in your update/draw function
 
-    rad += radIncrement;
-    flamingo.rotateOnAxis(axis, rad); //flamingo.rotation.y += deltaX  *.005;  
-  } //save current mouse Position for next time
+      console.log(rad);
+      rad += radIncrement;
+      flamingo.rotateOnAxis(axis, rad); //flamingo.rotation.y += deltaX  *.005;
+    } //save current mouse Position for next time
 
 
-  lastMPos = {
-    x: event.clientX,
-    y: event.clientY
-  };
+    lastMPos = {
+      x: event.clientX,
+      y: event.clientY
+    };
+  }
 }
 
 function onWindowResize() {
@@ -36724,7 +36730,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52378" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65510" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

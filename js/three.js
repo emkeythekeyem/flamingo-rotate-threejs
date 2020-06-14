@@ -1,9 +1,9 @@
 import * as THREE from "three";
 
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 
-import flamingoTexture from '../img/models/flamingo/flamingopink.jpg'
-import flamingoOBJ from '../img/models/flamingo/PinkFlamingo_V1.obj'
+import flamingoTexture from "../img/models/flamingo/flamingopink.jpg";
+import flamingoOBJ from "../img/models/flamingo/PinkFlamingo_V1.obj";
 
 var container;
 
@@ -17,7 +17,11 @@ var windowHalfY = window.innerHeight / 2;
 
 var flamingo;
 
-var mouseDown = false
+var mouseDown = false;
+
+var rad = 0;
+
+var radIncrement = 1;
 
 init();
 animate();
@@ -52,10 +56,10 @@ function init() {
       if (child.isMesh) child.material.map = texture;
     });
 
-    flamingo.rotation.x = 180
-    flamingo.getWorldDirection()
+    flamingo.rotation.x = 180;
+    flamingo.getWorldDirection();
     flamingo.matrix.scale(0.2);
-    console.log(flamingo)
+    console.log(flamingo);
     scene.add(flamingo);
   }
 
@@ -102,50 +106,51 @@ function init() {
 
   //
   window.addEventListener("mousedown", onMouseDown, false);
-  window.addEventListener("mousedUp", onMouseUp, false);
-  window.addEventListener("mousemove", onMouseMove,false)
+  window.addEventListener("mouseUp", onMouseUp, false);
+  window.addEventListener("mousemove", onMouseMove, false);
 
   window.addEventListener("resize", onWindowResize, false);
 }
 
-
-function onMouseUp(){
-    mouseDown = false;
+function onMouseUp() {
+  mouseDown = false;
 }
 
-function onMouseDown(){
-    mouseDown = true;
+function onMouseDown() {
+  mouseDown = true;
 }
 
 //you need to store this to know how far the mouse has moved
 var lastMPos = {};
 
 //this function is called when the mouse is moved
-function onMouseMove(event){
-    console.log('mouse down and moving')
+function onMouseMove(event) {
+  console.log("mouse down and moving", mouseDown);
+  if (mouseDown) {
     //you can only calculate the distance if therer already was a mouse event
-    if (typeof(lastMPos.x) != 'undefined') {
+    if (typeof lastMPos.x != "undefined") {
+      //calculate how far the mouse has moved
+      var deltaX = lastMPos.x - event.clientX,
+        deltaY = lastMPos.y - event.clientY;
 
-        //calculate how far the mouse has moved
-        var deltaX = lastMPos.x - event.clientX,
-            deltaY = lastMPos.y - event.clientY;
+      //rotate your object accordingly
 
-        //rotate your object accordingly
+      //declared once at the top of your code
+      var axis = new THREE.Vector3(deltaX, deltaY, 0); //tilted a bit on x and y - feel free to plug your different axis here
+      //in your update/draw function
+      console.log(rad);
+      rad += radIncrement;
+      flamingo.rotateOnAxis(axis, rad);
 
-        //declared once at the top of your code
-        var axis = new THREE.Vector3(deltaX,deltaY,0);//tilted a bit on x and y - feel free to plug your different axis here
-        //in your update/draw function
-        rad += radIncrement;
-        flamingo.rotateOnAxis(axis,rad);
-
-        //flamingo.rotation.y += deltaX  *.005;  
+      //flamingo.rotation.y += deltaX  *.005;
     }
 
     //save current mouse Position for next time
     lastMPos = {
-        x : event.clientX,
-        y : event.clientY
+      x: event.clientX,
+      y: event.clientY,
     };
+  }
 }
 
 function onWindowResize() {
@@ -157,7 +162,6 @@ function onWindowResize() {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
-
 
 //
 
