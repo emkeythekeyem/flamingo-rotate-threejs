@@ -11,6 +11,18 @@
    Base styles: opinionated defaults
    ========================================================================== */
 
+   /* Color Theme Swatches in Hex */
+:root
+{
+  --first-: #F2889B; 
+  --second-: #F22816; 
+  --third-: #F25D50; 
+  --forth-: #F28A80; 
+  --fifth-: #F2F2F2; 
+
+}
+
+
 html {
   color: #222;
   font-size: 1em;
@@ -261,3 +273,46 @@ textarea {
   }
 }
 
+.navbar
+{
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.wrapper
+{
+  height: 100%;
+}
+
+
+.flamingo-ctn
+{
+  
+  width: 100vw;
+  height: 100vh;
+  
+}
+
+.flamingo-text
+{
+  vertical-align: middle;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    align-content: start;
+    justify-content: center;
+}
+.flamingo-text p
+{
+  text-align: left;
+}
+
+.flamingo-canvas
+{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+}

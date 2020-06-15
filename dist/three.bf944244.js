@@ -36580,12 +36580,13 @@ var flamingo;
 var mouseDown = false;
 var rad = 0;
 var radIncrement = 1;
-init();
-animate();
+window.addEventListener('DOMContentLoaded', function (event) {
+  init();
+  animate();
+});
 
 function init() {
-  container = document.createElement("div");
-  document.body.appendChild(container);
+  container = document.querySelector(".flamingo-canvas");
   camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
   camera.position.z = 250; // scene
 
@@ -36600,7 +36601,10 @@ function init() {
     flamingo.traverse(function (child) {
       if (child.isMesh) child.material.map = texture;
     });
-    flamingo.rotation.x = 180;
+    flamingo.rotation.z = 180;
+    flamingo.rotation.x = 105.5;
+    flamingo.position.y = -40;
+    flamingo.position.x = 70;
     flamingo.getWorldDirection();
     flamingo.matrix.scale(0.2);
     console.log(flamingo);
@@ -36639,7 +36643,7 @@ function init() {
   container.appendChild(renderer.domElement); //
 
   window.addEventListener("mousedown", onMouseDown, false);
-  window.addEventListener("mouseUp", onMouseUp, false);
+  window.addEventListener("mouseup", onMouseUp, false);
   window.addEventListener("mousemove", onMouseMove, false);
   window.addEventListener("resize", onWindowResize, false);
 }
@@ -36666,12 +36670,12 @@ function onMouseMove(event) {
           deltaY = lastMPos.y - event.clientY; //rotate your object accordingly
       //declared once at the top of your code
 
-      var axis = new THREE.Vector3(deltaX, deltaY, 0); //tilted a bit on x and y - feel free to plug your different axis here
+      var axis = new THREE.Vector3(0, 0, 10).normalize(); //tilted a bit on x and y - feel free to plug your different axis here
       //in your update/draw function
 
       console.log(rad);
       rad += radIncrement;
-      flamingo.rotateOnAxis(axis, rad); //flamingo.rotation.y += deltaX  *.005;
+      flamingo.rotateOnAxis(axis, 0.1); //flamingo.rotation.y += deltaX  *.005;
     } //save current mouse Position for next time
 
 
@@ -36730,7 +36734,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65510" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54076" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
